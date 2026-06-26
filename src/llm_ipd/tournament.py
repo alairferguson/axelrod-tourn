@@ -37,6 +37,7 @@ def build_players(models, persona="neutral", temperature=0.0, cache=None):
                 temperature=temperature,
                 cache=cache,
                 name=label,
+                persona=persona,
             )
         )
     return players

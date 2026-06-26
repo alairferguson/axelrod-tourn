@@ -28,9 +28,24 @@ def test_parse():
     assert LLMPlayer._parse("D") == D
     assert LLMPlayer._parse("I will Defect.") == D
     assert LLMPlayer._parse("cooperate") == C
+    assert LLMPlayer._parse("A", persona="payoff_only") == C
+    assert LLMPlayer._parse("B", persona="payoff_only") == D
+    assert LLMPlayer._parse("C", persona="payoff_only") is None
     assert LLMPlayer._parse("") is None
     assert LLMPlayer._parse(None) is None
     print("test_parse OK")
+
+
+def test_payoff_only_prompt():
+    from llm_ipd.prompts import build_prompt
+
+    prompt = build_prompt([], [], axl.Game(), persona="payoff_only")
+    lower = prompt.lower()
+    assert "cooperat" not in lower
+    assert "defect" not in lower
+    assert "(A, A)" in prompt
+    assert "A or B" in prompt
+    print("test_payoff_only_prompt OK")
 
 
 def test_fingerprint_known_sequences():
@@ -93,6 +108,7 @@ def test_llm_player_mocked_end_to_end(monkeypatch=None):
 
 if __name__ == "__main__":
     test_parse()
+    test_payoff_only_prompt()
     test_fingerprint_known_sequences()
     test_classic_probe_profiles_distinct()
     test_llm_player_mocked_end_to_end()

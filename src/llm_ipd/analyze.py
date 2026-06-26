@@ -42,6 +42,7 @@ def llm_factory(model, persona, temperature, cache):
     sp = PERSONA_PROMPTS[persona]
     return lambda: LLMPlayer(model=model, system_prompt=sp,
                              temperature=temperature, cache=cache,
+                             persona=persona,
                              name=f"LLM:{model.split('/')[-1]}")
 
 

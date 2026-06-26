@@ -76,10 +76,12 @@ class LLMPlayer(axl.Player):
         cache: Optional[ResponseCache] = None,
         name: Optional[str] = None,
         fallback: Action = C,
+        persona: str = "neutral",
     ) -> None:
         super().__init__()
         self.model = model
         self.system_prompt = system_prompt
+        self.persona = persona
         self.temperature = temperature
         self.cache = cache
         self.fallback = fallback
@@ -97,9 +99,10 @@ class LLMPlayer(axl.Player):
             my_history=self.history,
             opponent_history=opponent.history,
             game=self.match_attributes.get("game", axl.Game()),
+            persona=self.persona,
         )
         reply = self._query(prompt)
-        move = self._parse(reply)
+        move = self._parse(reply, self.persona)
         if move is None:
             self.n_fallbacks += 1
             return self.fallback
@@ -142,12 +145,20 @@ class LLMPlayer(axl.Player):
         return self.name
 
     @staticmethod
-    def _parse(reply: Optional[str]) -> Optional[Action]:
-        """Extract a single C/D move from the model's reply. Robust to chatter
+    def _parse(reply: Optional[str], persona: str = "neutral") -> Optional[Action]:
+        """Extract a single move from the model's reply. Robust to chatter
         like 'I will Defect.' Returns None if nothing parseable is found."""
         if not reply:
             return None
         text = reply.strip().upper()
+        if persona == "payoff_only":
+            if text and text[0] in ("A", "B"):
+                return C if text[0] == "A" else D
+            if "B" in text and "A" not in text:
+                return D
+            if "A" in text and "B" not in text:
+                return C
+            return None
         # Prefer a bare leading token.
         if text and text[0] in ("C", "D"):
             return C if text[0] == "C" else D

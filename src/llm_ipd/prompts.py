@@ -38,6 +38,12 @@ PERSONA_PROMPTS = {
         "trust. Each round choose Cooperate (C) or Defect (D). Answer with "
         "exactly one character: C or D."
     ),
+    "payoff_only": (
+        "You are playing a repeated two-player game. Each round you choose "
+        "action A or action B. You will be shown a payoff table and the "
+        "history of choices so far. Maximize your own total points. Answer "
+        "with exactly one character: A or B."
+    ),
 }
 
 
@@ -56,6 +62,18 @@ def _payoff_block(game: axl.Game) -> str:
     )
 
 
+def _payoff_block_util(game: axl.Game) -> str:
+    """Payoff table with no cooperate/defect framing — numbers only."""
+    R, P, S, T = game.RPST()
+    return (
+        "Payoffs each round (your choice, their choice) -> your points:\n"
+        f"  (A, A) -> {R}\n"
+        f"  (A, B) -> {S}\n"
+        f"  (B, A) -> {T}\n"
+        f"  (B, B) -> {P}\n"
+    )
+
+
 def _history_block(my_history, opponent_history) -> str:
     if len(my_history) == 0:
         return "No rounds have been played yet. This is round 1."
@@ -65,7 +83,31 @@ def _history_block(my_history, opponent_history) -> str:
     return "History so far:\n" + "\n".join(lines)
 
 
-def build_prompt(my_history, opponent_history, game: axl.Game) -> str:
+def _history_block_util(my_history, opponent_history) -> str:
+    if len(my_history) == 0:
+        return "No rounds have been played yet. This is round 1."
+
+    def _label(action):
+        return "A" if action == C else "B"
+
+    lines = []
+    for i, (mine, theirs) in enumerate(zip(my_history, opponent_history), start=1):
+        lines.append(
+            f"  Round {i}: you chose {_label(mine)}, they chose {_label(theirs)}"
+        )
+    return "History so far:\n" + "\n".join(lines)
+
+
+def build_prompt(my_history, opponent_history, game: axl.Game,
+                 persona: str = "neutral") -> str:
+    if persona == "payoff_only":
+        return (
+            _payoff_block_util(game)
+            + "\n"
+            + _history_block_util(my_history, opponent_history)
+            + "\n\nWhich action do you choose this round? Answer with exactly "
+            "one character: A or B."
+        )
     return (
         _payoff_block(game)
         + "\n"

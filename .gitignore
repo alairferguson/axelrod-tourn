@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Secrets
+.env
+
+# Results that are regenerated (keep figures you curate for the writeup)
+results/data/*.csv
+results/data/*.pkl
+results/data/llm_cache.json
+
+# OS
+.DS_Store
+results/figures/*.png

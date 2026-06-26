@@ -1,0 +1,4 @@
+axelrod>=4.14.0
+litellm>=1.0.0
+matplotlib>=3.5.0
+adjustText>=0.8

@@ -37,15 +37,36 @@ def test_parse():
 
 
 def test_payoff_only_prompt():
-    from llm_ipd.prompts import build_prompt
+    from llm_ipd.prompts import build_prompt, PERSONA_PROMPTS
 
     prompt = build_prompt([], [], axl.Game(), persona="payoff_only")
     lower = prompt.lower()
     assert "cooperat" not in lower
     assert "defect" not in lower
     assert "(A, A)" in prompt
-    assert "A or B" in prompt
+    assert "ONLY A or B" in prompt
     print("test_payoff_only_prompt OK")
+
+
+def test_persona_output_rules_consistent():
+    from llm_ipd.prompts import PERSONA_PROMPTS
+
+    cd_rules = (
+        "Output rules (strict):\n"
+        "  - Reply with exactly one character: C or D\n"
+        "  - No explanation, punctuation, or other text"
+    )
+    ab_rules = (
+        "Output rules (strict):\n"
+        "  - Reply with exactly one character: A or B\n"
+        "  - No explanation, punctuation, or other text"
+    )
+    for persona in ("neutral", "selfish", "cooperative"):
+        assert PERSONA_PROMPTS[persona].endswith(cd_rules), persona
+        assert "Reason" not in PERSONA_PROMPTS[persona]
+    assert PERSONA_PROMPTS["payoff_only"].endswith(ab_rules)
+    assert "Reason" not in PERSONA_PROMPTS["payoff_only"]
+    print("test_persona_output_rules_consistent OK")
 
 
 def test_fingerprint_known_sequences():
@@ -109,6 +130,7 @@ def test_llm_player_mocked_end_to_end(monkeypatch=None):
 if __name__ == "__main__":
     test_parse()
     test_payoff_only_prompt()
+    test_persona_output_rules_consistent()
     test_fingerprint_known_sequences()
     test_classic_probe_profiles_distinct()
     test_llm_player_mocked_end_to_end()

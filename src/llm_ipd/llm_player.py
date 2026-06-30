@@ -128,7 +128,7 @@ class LLMPlayer(axl.Player):
                     {"role": "user", "content": user_prompt},
                 ],
                 temperature=self.temperature,
-                max_tokens=8,  # we only need "C" or "D"
+                max_tokens=1,
             )
             text = resp["choices"][0]["message"]["content"]
         except Exception as exc:  # noqa: BLE001 - we want any failure to fall back

@@ -15,6 +15,10 @@ import argparse
 import os
 import pickle
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import axelrod as axl
 
 from .cache import ResponseCache
@@ -63,6 +67,14 @@ def run(models, turns=30, repetitions=5, personas=("neutral",),
     )
     cache.save()
     print(f"Cache now holds {len(cache)} responses.")
+    llm_players = [p for p in players if isinstance(p, LLMPlayer)]
+    if llm_players:
+        total_fallbacks = sum(p.n_fallbacks for p in llm_players)
+        total_calls = sum(p.n_calls for p in llm_players)
+        print(
+            f"LLM API: {total_calls} calls, {total_fallbacks} fallbacks "
+            f"({'OK' if total_fallbacks == 0 else 'CHECK — parse/API failures default to C'})"
+        )
 
     # --- Save ranked scores ---
     import csv

@@ -1,0 +1,56 @@
+Looks like you are using a tranform that doesn't support FancyArrowPatch, using ax.annotate instead. The arrows might strike through texts. Increasing shrinkA in arrowprops might help.
+
+=== Behavioral fingerprints ===
+Tit For Tat                  cooperation_rate=0.64  niceness=1.00  retaliation=1.00  forgiveness=1.00  provocability=1.00
+Grudger                      cooperation_rate=0.59  niceness=1.00  retaliation=1.00  forgiveness=0.00  provocability=1.00
+Win-Stay Lose-Shift          cooperation_rate=0.78  niceness=1.00  retaliation=0.52  forgiveness=0.24  provocability=1.00
+GTFT: 0.33                   cooperation_rate=0.77  niceness=1.00  retaliation=0.64  forgiveness=1.00  provocability=0.63
+Cooperator                   cooperation_rate=1.00  niceness=1.00  retaliation=0.00  forgiveness=1.00  provocability=0.00
+Defector                     cooperation_rate=0.00  niceness=0.00  retaliation=1.00  forgiveness=0.00  provocability=1.00
+Random: 0.5                  cooperation_rate=0.52  niceness=0.16  retaliation=0.48  forgiveness=0.54  provocability=0.62
+LLM:gpt-4o-mini[neutral]     cooperation_rate=0.64  niceness=1.00  retaliation=0.91  forgiveness=0.22  provocability=1.00
+LLM:gpt-4o-mini[cooperative] cooperation_rate=0.76  niceness=1.00  retaliation=0.63  forgiveness=1.00  provocability=0.00
+LLM:gpt-4o-mini[selfish]     cooperation_rate=0.00  niceness=0.00  retaliation=1.00  forgiveness=0.00  provocability=1.00
+LLM:gpt-4o-mini[payoff_only] cooperation_rate=0.16  niceness=0.00  retaliation=0.85  forgiveness=0.25  provocability=0.60
+LLM:claude-haiku-4-5[neutral] cooperation_rate=0.59  niceness=1.00  retaliation=1.00  forgiveness=0.05  provocability=1.00
+LLM:claude-haiku-4-5[cooperative] cooperation_rate=0.65  niceness=1.00  retaliation=0.92  forgiveness=0.78  provocability=1.00
+LLM:claude-haiku-4-5[selfish] cooperation_rate=0.00  niceness=0.00  retaliation=1.00  forgiveness=0.00  provocability=1.00
+LLM:claude-haiku-4-5[payoff_only] cooperation_rate=0.01  niceness=0.00  retaliation=0.99  forgiveness=0.00  provocability=1.00
+
+=== Tournament outcomes ===
+Grudger                           wins= 10  total=  4888  util/turn=2.328  matches=70
+claude-haiku-4-5: neutral prompt  wins= 10  total=  4842  util/turn=2.306  matches=70
+Tit For Tat                       wins=  0  total=  4785  util/turn=2.279  matches=70
+gpt-4o-mini: neutral prompt       wins=  2  total=  4774  util/turn=2.273  matches=70
+claude-haiku-4-5: cooperative prompt  wins=  2  total=  4719  util/turn=2.247  matches=70
+Win-Stay Lose-Shift               wins=  2  total=  4543  util/turn=2.163  matches=70
+GTFT: 0.33                        wins=  0  total=  4456  util/turn=2.122  matches=70
+gpt-4o-mini: cooperative prompt   wins=  0  total=  4350  util/turn=2.071  matches=70
+gpt-4o-mini: payoff_only prompt   wins= 35  total=  4242  util/turn=2.020  matches=70
+claude-haiku-4-5: payoff_only prompt  wins= 55  total=  3856  util/turn=1.836  matches=70
+Cooperator                        wins=  0  total=  3840  util/turn=1.829  matches=70
+Defector                          wins= 60  total=  3840  util/turn=1.829  matches=70
+claude-haiku-4-5: selfish prompt  wins= 60  total=  3828  util/turn=1.823  matches=70
+gpt-4o-mini: selfish prompt       wins= 60  total=  3824  util/turn=1.821  matches=70
+Random: 0.5                       wins= 26  total=  3680  util/turn=1.752  matches=70
+
+=== Nearest classic strategy (probe method) ===
+LLM:gpt-4o-mini[neutral]: closest to 'Grim Trigger' (distance 0.06)
+   full ranking: Grim Trigger=0.06, Win-Stay-Lose-Shift=0.17, Tit For Tat=0.22, Generous Tit For Tat=0.33, Random=0.36, Cooperator=0.47, Defector=0.53
+LLM:gpt-4o-mini[cooperative]: closest to 'Cooperator' (distance 0.11)
+   full ranking: Cooperator=0.11, Generous Tit For Tat=0.14, Tit For Tat=0.25, Win-Stay-Lose-Shift=0.31, Grim Trigger=0.42, Random=0.44, Defector=0.89
+LLM:gpt-4o-mini[selfish]: closest to 'Defector' (distance 0.00)
+   full ranking: Defector=0.00, Grim Trigger=0.47, Random=0.56, Tit For Tat=0.69, Win-Stay-Lose-Shift=0.69, Generous Tit For Tat=0.81, Cooperator=1.00
+LLM:gpt-4o-mini[payoff_only]: closest to 'Defector' (distance 0.31)
+   full ranking: Defector=0.31, Random=0.42, Grim Trigger=0.56, Win-Stay-Lose-Shift=0.61, Tit For Tat=0.67, Cooperator=0.69, Generous Tit For Tat=0.72
+LLM:claude-haiku-4-5[neutral]: closest to 'Grim Trigger' (distance 0.00)
+   full ranking: Grim Trigger=0.00, Tit For Tat=0.22, Win-Stay-Lose-Shift=0.22, Generous Tit For Tat=0.33, Random=0.42, Defector=0.47, Cooperator=0.53
+LLM:claude-haiku-4-5[cooperative]: closest to 'Tit For Tat' (distance 0.11)
+   full ranking: Tit For Tat=0.11, Win-Stay-Lose-Shift=0.17, Generous Tit For Tat=0.17, Cooperator=0.25, Grim Trigger=0.28, Random=0.42, Defector=0.75
+LLM:claude-haiku-4-5[selfish]: closest to 'Defector' (distance 0.00)
+   full ranking: Defector=0.00, Grim Trigger=0.47, Random=0.56, Tit For Tat=0.69, Win-Stay-Lose-Shift=0.69, Generous Tit For Tat=0.81, Cooperator=1.00
+LLM:claude-haiku-4-5[payoff_only]: closest to 'Defector' (distance 0.00)
+   full ranking: Defector=0.00, Grim Trigger=0.47, Random=0.56, Tit For Tat=0.69, Win-Stay-Lose-Shift=0.69, Generous Tit For Tat=0.81, Cooperator=1.00
+Wrote results/figures/fingerprint_space.png
+Wrote results/figures/tournament_outcomes.png
+Wrote results/figures/utility_leaderboard.png

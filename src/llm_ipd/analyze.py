@@ -15,6 +15,10 @@ import csv
 import math
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt

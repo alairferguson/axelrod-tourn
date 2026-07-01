@@ -34,6 +34,31 @@ from .prompts import build_prompt, DEFAULT_SYSTEM_PROMPT
 C, D = Action.C, Action.D
 
 
+def parse_llm_player(name: str) -> tuple[str, str] | None:
+    """Return (model_slug, persona) for an LLM player name, or None."""
+    if not name.startswith("LLM:"):
+        return None
+    rest = name[4:]
+    if "[" in rest and rest.endswith("]"):
+        model, persona = rest.rsplit("[", 1)
+        return model, persona[:-1]
+    return rest, "neutral"
+
+
+def llm_player_name(model: str, persona: str) -> str:
+    """Canonical tournament label for a model×persona player."""
+    return f"LLM:{model.split('/')[-1]}[{persona}]"
+
+
+def display_llm_name(name: str) -> str:
+    """Human-readable chart label, e.g. 'gpt-4o-mini: cooperative prompt'."""
+    parsed = parse_llm_player(name)
+    if parsed:
+        model, persona = parsed
+        return f"{model}: {persona} prompt"
+    return name
+
+
 class LLMPlayer(axl.Player):
     """An Iterated Prisoner's Dilemma player backed by an LLM.
 

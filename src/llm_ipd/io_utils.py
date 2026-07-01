@@ -7,12 +7,21 @@ from __future__ import annotations
 
 import csv
 from collections import defaultdict
+from dataclasses import dataclass
 from typing import Dict, List, Tuple
 
 from axelrod.action import Action
 
 C, D = Action.C, Action.D
 Interaction = List[Tuple[Action, Action]]
+
+
+@dataclass(frozen=True)
+class PlayerOutcome:
+    wins: int
+    mean_score_per_turn: float
+    total_score: float
+    matches: int
 
 
 def _char_to_action(ch: str) -> Action:
@@ -50,3 +59,37 @@ def load_player_matches(interactions_csv: str) -> Dict[str, List[Interaction]]:
             ]
             out[row["Player name"]].append(pairs)
     return dict(out)
+
+
+def load_player_outcomes(interactions_csv: str) -> Dict[str, PlayerOutcome]:
+    """Aggregate tournament wins and mean score-per-turn per player.
+
+    Self-matches are excluded so totals match head-to-head round-robin play.
+    """
+    totals: Dict[str, dict] = {}
+    with open(interactions_csv) as fh:
+        for row in csv.DictReader(fh):
+            if row["Player index"] == row["Opponent index"]:
+                continue
+            name = row["Player name"]
+            bucket = totals.setdefault(
+                name, {"wins": 0, "score_per_turn": [], "total_score": 0.0, "matches": 0}
+            )
+            bucket["wins"] += int(row["Win"])
+            bucket["score_per_turn"].append(float(row["Score per turn"]))
+            bucket["total_score"] += float(row["Score"])
+            bucket["matches"] += 1
+
+    return {
+        name: PlayerOutcome(
+            wins=data["wins"],
+            mean_score_per_turn=(
+                sum(data["score_per_turn"]) / len(data["score_per_turn"])
+                if data["score_per_turn"]
+                else float("nan")
+            ),
+            total_score=data["total_score"],
+            matches=data["matches"],
+        )
+        for name, data in totals.items()
+    }

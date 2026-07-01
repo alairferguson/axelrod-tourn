@@ -15,6 +15,60 @@ SPINE = "#D0D7DE"
 CLASSIC = "#8B949E"
 LLM_ACCENTS = ("#218BFF", "#A371F7", "#FF7B72", "#3FB950", "#D29922", "#F778BA")
 
+# Persona shade: blend base model hue toward this color by the given amount.
+PERSONA_SHADE = {
+    "cooperative": ("#FFFFFF", 0.34),
+    "neutral": (None, 0.0),
+    "selfish": ("#1F2328", 0.30),
+    "payoff_only": (MUTED, 0.24),
+}
+
+
+def _hex_to_rgb(hex_color: str) -> tuple[float, float, float]:
+    h = hex_color.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+
+
+def _rgb_to_hex(rgb: tuple[float, float, float]) -> str:
+    return "#" + "".join(f"{max(0, min(255, int(c * 255))):02x}" for c in rgb)
+
+
+def blend_hex(base: str, target: str, amount: float) -> str:
+    """Linear blend between two hex colors (amount 0 = base, 1 = target)."""
+    br, bg, bb = _hex_to_rgb(base)
+    tr, tg, tb = _hex_to_rgb(target)
+    return _rgb_to_hex((
+        br + (tr - br) * amount,
+        bg + (tg - bg) * amount,
+        bb + (tb - bb) * amount,
+    ))
+
+
+def build_llm_colors(llm_names: list[str]) -> dict[str, str]:
+    """Assign each LLM player a shade of its model's base hue."""
+    from .llm_player import parse_llm_player
+
+    models: list[str] = []
+    for name in llm_names:
+        parsed = parse_llm_player(name)
+        if parsed and parsed[0] not in models:
+            models.append(parsed[0])
+
+    model_base = {
+        model: LLM_ACCENTS[i % len(LLM_ACCENTS)] for i, model in enumerate(models)
+    }
+    colors: dict[str, str] = {}
+    for name in llm_names:
+        parsed = parse_llm_player(name)
+        if not parsed:
+            colors[name] = LLM_ACCENTS[0]
+            continue
+        model, persona = parsed
+        base = model_base.get(model, LLM_ACCENTS[0])
+        target, amount = PERSONA_SHADE.get(persona, (None, 0.0))
+        colors[name] = blend_hex(base, target, amount) if target else base
+    return colors
+
 
 def apply_theme() -> None:
     """Set global rcParams for a clean, modern sans-serif look."""
@@ -91,15 +145,22 @@ def marker_size(retaliation: float, *, llm: bool) -> float:
     return lo + r * (hi - lo)
 
 
-def draw_fingerprint_legend(fig, *, left: float = 0.09, bottom: float = 0.028) -> None:
+def draw_fingerprint_legend(
+    fig,
+    *,
+    left: float = 0.09,
+    bottom: float = 0.028,
+    llm_colors: dict[str, str] | None = None,
+) -> None:
     """Compact horizontal legend below the plot — player types + retaliation scale."""
+    from .llm_player import parse_llm_player
+
     overlay = fig.add_axes([0, 0, 1, 1], frameon=False, zorder=10)
     overlay.set_xlim(0, 1)
     overlay.set_ylim(0, 1)
     overlay.axis("off")
 
     panel_left = left
-    panel_w = 0.348
     panel_h = 0.052
     row_y = bottom + 0.026
 
@@ -122,17 +183,43 @@ def draw_fingerprint_legend(fig, *, left: float = 0.09, bottom: float = 0.028) -
     _fig_text(classic_x + 0.009, row_y, "Classic strategy", color=FG)
 
     llm_x = panel_left + 0.112
-    _marker(llm_x, row_y, size=68, color=LLM_ACCENTS[0], marker="D")
-    _fig_text(llm_x + 0.009, row_y, "LLM player", color=FG)
+    persona_order = ("cooperative", "neutral", "selfish", "payoff_only")
+    shade_samples: list[str] = []
+    if llm_colors:
+        by_model: dict[str, dict[str, str]] = {}
+        for name, color in llm_colors.items():
+            parsed = parse_llm_player(name)
+            if parsed:
+                model, persona = parsed
+                by_model.setdefault(model, {})[persona] = color
+        if by_model:
+            first = next(iter(by_model.values()))
+            shade_samples = [first[p] for p in persona_order if p in first]
+
+    if len(shade_samples) > 1:
+        swatch_xs = [llm_x + i * 0.014 for i in range(len(shade_samples))]
+        overlay.scatter(
+            swatch_xs, [row_y] * len(shade_samples), s=[52] * len(shade_samples),
+            c=shade_samples, marker="D", edgecolors="white", linewidths=1.0,
+            transform=fig.transFigure, zorder=3, clip_on=False,
+        )
+        _fig_text(swatch_xs[-1] + 0.012, row_y, "LLM player", color=FG)
+    else:
+        sample = shade_samples[0] if shade_samples else LLM_ACCENTS[0]
+        _marker(llm_x, row_y, size=68, color=sample, marker="D")
+        _fig_text(llm_x + 0.009, row_y, "LLM player", color=FG)
 
     div_x = panel_left + 0.198
+    if len(shade_samples) > 1:
+        div_x = panel_left + 0.228
     overlay.plot(
         [div_x, div_x], [bottom + 0.003, bottom + panel_h - 0.006],
         color=GRID, linewidth=1.0, transform=fig.transFigure, zorder=2,
     )
 
-    # Retaliation scale — same dot spacing as before (0.10 figure units)
-    low_x, high_x = panel_left + 0.218, panel_left + 0.318
+    scale_offset = 0.030 if len(shade_samples) > 1 else 0.0
+    panel_w = 0.348 + scale_offset
+    low_x, high_x = panel_left + 0.218 + scale_offset, panel_left + 0.318 + scale_offset
     scale_y = row_y - 0.001
     scale_center = (low_x + high_x) / 2
     dot_xs = [low_x + i * (high_x - low_x) / 4 for i in range(5)]

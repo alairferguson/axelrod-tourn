@@ -102,6 +102,61 @@ def test_classic_probe_profiles_distinct():
     print("test_classic_probe_profiles_distinct OK")
 
 
+def test_load_player_outcomes(tmp_path=None):
+    import csv
+    import os
+    import tempfile
+
+    from llm_ipd.io_utils import load_player_outcomes  # noqa: E402
+
+    if tmp_path is None:
+        tmp_path = tempfile.mkdtemp()
+    csv_path = os.path.join(tmp_path, "interactions.csv")
+    rows = [
+        {
+            "Interaction index": "0", "Player index": "0", "Opponent index": "1",
+            "Player name": "Cooperator", "Opponent name": "Defector",
+            "Win": "0", "Score per turn": "0.0", "Score": "0",
+        },
+        {
+            "Interaction index": "0", "Player index": "1", "Opponent index": "0",
+            "Player name": "Defector", "Opponent name": "Cooperator",
+            "Win": "1", "Score per turn": "5.0", "Score": "15",
+        },
+        {
+            "Interaction index": "1", "Player index": "0", "Opponent index": "0",
+            "Player name": "Cooperator", "Opponent name": "Cooperator",
+            "Win": "0", "Score per turn": "3.0", "Score": "9",
+        },
+        {
+            "Interaction index": "2", "Player index": "0", "Opponent index": "2",
+            "Player name": "LLM:gpt-4o-mini[cooperative]",
+            "Opponent name": "Defector",
+            "Win": "0", "Score per turn": "1.5", "Score": "6",
+        },
+        {
+            "Interaction index": "2", "Player index": "2", "Opponent index": "0",
+            "Player name": "Defector", "Opponent name": "LLM:gpt-4o-mini[cooperative]",
+            "Win": "1", "Score per turn": "4.5", "Score": "18",
+        },
+    ]
+    with open(csv_path, "w", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        w.writeheader()
+        w.writerows(rows)
+
+    outcomes = load_player_outcomes(csv_path)
+    assert outcomes["Cooperator"].wins == 0
+    assert outcomes["Cooperator"].matches == 1
+    assert outcomes["Cooperator"].mean_score_per_turn == 0.0
+    assert outcomes["Defector"].wins == 2
+    assert outcomes["Defector"].mean_score_per_turn == 4.75
+    assert outcomes["Defector"].total_score == 33.0
+    assert outcomes["LLM:gpt-4o-mini[cooperative]"].mean_score_per_turn == 1.5
+    assert outcomes["LLM:gpt-4o-mini[cooperative]"].total_score == 6.0
+    print("test_load_player_outcomes OK")
+
+
 def test_llm_player_mocked_end_to_end(monkeypatch=None):
     # Make LLMPlayer deterministically "always cooperate" by patching litellm.
     import types
@@ -133,5 +188,6 @@ if __name__ == "__main__":
     test_persona_output_rules_consistent()
     test_fingerprint_known_sequences()
     test_classic_probe_profiles_distinct()
+    test_load_player_outcomes()
     test_llm_player_mocked_end_to_end()
     print("\nAll tests passed.")

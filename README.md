@@ -112,9 +112,12 @@ states recur constantly), small default model choices, and modest
 results/data/ranked_scores.csv        final ranking + normalised scores
 results/data/cooperation_matrix.csv   who cooperates against whom
 results/data/fingerprints.csv         the five fingerprint metrics per player
+results/data/outcomes.csv             wins + mean score per turn per player
 results/data/interactions_raw.csv     every match's move sequence (source of truth)
 results/data/llm_cache.json           cached model responses
 results/figures/fingerprint_space.png the hero figure
+results/figures/tournament_outcomes.png wins & per-turn utility bar chart
+results/figures/utility_leaderboard.png total-score leaderboard
 ```
 
 ## Project layout

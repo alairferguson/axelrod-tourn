@@ -18,39 +18,37 @@ import pickle
 import axelrod as axl
 
 from .cache import ResponseCache
-from .llm_player import LLMPlayer
+from .llm_player import LLMPlayer, llm_player_name
 from .prompts import PERSONA_PROMPTS
 from .roster import classic_roster
 
 
-def build_players(models, persona="neutral", temperature=0.0, cache=None):
+def build_players(models, personas=("neutral",), temperature=0.0, cache=None):
+    """Build classics plus one distinct player per model×persona pairing."""
     players = classic_roster()
-    system_prompt = PERSONA_PROMPTS[persona]
     for model in models:
-        label = f"LLM:{model.split('/')[-1]}"
-        if persona != "neutral":
-            label += f"[{persona}]"
-        players.append(
-            LLMPlayer(
-                model=model,
-                system_prompt=system_prompt,
-                temperature=temperature,
-                cache=cache,
-                name=label,
-                persona=persona,
+        for persona in personas:
+            players.append(
+                LLMPlayer(
+                    model=model,
+                    system_prompt=PERSONA_PROMPTS[persona],
+                    temperature=temperature,
+                    cache=cache,
+                    name=llm_player_name(model, persona),
+                    persona=persona,
+                )
             )
-        )
     return players
 
 
-def run(models, turns=30, repetitions=5, persona="neutral",
+def run(models, turns=30, repetitions=5, personas=("neutral",),
         temperature=0.0, seed=0, outdir="results/data"):
     os.makedirs(outdir, exist_ok=True)
     cache = ResponseCache(os.path.join(outdir, "llm_cache.json"))
-    players = build_players(models, persona, temperature, cache)
+    players = build_players(models, personas, temperature, cache)
 
     print(f"Players ({len(players)}): {[p.name for p in players]}")
-    print(f"turns={turns} repetitions={repetitions} persona={persona} "
+    print(f"turns={turns} repetitions={repetitions} personas={list(personas)} "
           f"temperature={temperature}")
 
     tournament = axl.Tournament(
@@ -121,11 +119,16 @@ def main():
                     help="litellm model strings, e.g. gpt-4o-mini claude-haiku-4-5")
     ap.add_argument("--turns", type=int, default=30)
     ap.add_argument("--repetitions", type=int, default=5)
-    ap.add_argument("--persona", default="neutral", choices=list(PERSONA_PROMPTS))
+    ap.add_argument(
+        "--personas", nargs="*", default=None, choices=list(PERSONA_PROMPTS),
+        help="One player per model×persona (default: neutral). "
+             "E.g. --personas neutral cooperative selfish",
+    )
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
-    run(args.models, args.turns, args.repetitions, args.persona,
+    personas = tuple(args.personas if args.personas else ("neutral",))
+    run(args.models, args.turns, args.repetitions, personas,
         args.temperature, args.seed)
 
 

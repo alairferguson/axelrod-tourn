@@ -118,6 +118,16 @@ results/data/llm_cache.json           cached model responses
 results/figures/fingerprint_space.png the hero figure
 results/figures/tournament_outcomes.png wins & per-turn utility bar chart
 results/figures/utility_leaderboard.png total-score leaderboard
+results/web/report.json               interactive web report bundle
+```
+
+### Interactive web report
+
+Bundle the CSVs into JSON for the alair-website report page:
+
+```bash
+python3 scripts/export_web_report.py \
+  --copy-to ../alair-website/public/rabbit-holes/llm-axelrod-tournament/report.json
 ```
 
 ## Project layout

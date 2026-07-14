@@ -1,0 +1,1111 @@
+{
+  "version": 1,
+  "generatedAt": "2026-07-14T03:29:07.185951+00:00",
+  "title": "LLM IPD Fingerprints",
+  "subtitle": "Behavioral fingerprints of language models in the iterated prisoner's dilemma, compared against classic Axelrod strategies.",
+  "meta": {
+    "players": 15,
+    "classics": 7,
+    "llms": 8,
+    "matchesPerPlayer": 70,
+    "turns": 30,
+    "fingerprintDimensions": [
+      "cooperation_rate",
+      "niceness",
+      "retaliation",
+      "forgiveness",
+      "provocability"
+    ],
+    "defaultAxes": {
+      "x": "cooperation_rate",
+      "y": "forgiveness"
+    }
+  },
+  "metrics": [
+    {
+      "id": "cooperation_rate",
+      "label": "Cooperation",
+      "shortLabel": "Coop.",
+      "description": "Fraction of C moves overall.",
+      "domain": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "niceness",
+      "label": "Niceness",
+      "shortLabel": "Nice",
+      "description": "Fraction of matches with no first defection.",
+      "domain": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "retaliation",
+      "label": "Retaliation",
+      "shortLabel": "Retal.",
+      "description": "P(defect next | opponent just defected).",
+      "domain": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "forgiveness",
+      "label": "Forgiveness",
+      "shortLabel": "Forgive",
+      "description": "P(cooperate next | opponent returned to C).",
+      "domain": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "provocability",
+      "label": "Provocability",
+      "shortLabel": "Prov.",
+      "description": "Retaliation to the opponent's first defection.",
+      "domain": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "mean_score_per_turn",
+      "label": "Score / turn",
+      "shortLabel": "Score",
+      "description": "Mean payoff per turn across all matches.",
+      "domain": "auto"
+    }
+  ],
+  "players": [
+    {
+      "id": "Tit For Tat",
+      "kind": "classic",
+      "model": null,
+      "persona": null,
+      "label": "Tit For Tat",
+      "shortLabel": "Tit For Tat",
+      "color": "#8B949E",
+      "fingerprint": {
+        "cooperation_rate": 0.6414,
+        "niceness": 1.0,
+        "retaliation": 1.0,
+        "forgiveness": 1.0,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 0,
+        "meanScorePerTurn": 2.2786,
+        "totalScore": 4785.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 3,
+        "meanNormalisedScore": 2.1633
+      }
+    },
+    {
+      "id": "Grudger",
+      "kind": "classic",
+      "model": null,
+      "persona": null,
+      "label": "Grudger",
+      "shortLabel": "Grudger",
+      "color": "#8B949E",
+      "fingerprint": {
+        "cooperation_rate": 0.5871,
+        "niceness": 1.0,
+        "retaliation": 1.0,
+        "forgiveness": 0.0,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 10,
+        "meanScorePerTurn": 2.3276,
+        "totalScore": 4888.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 2,
+        "meanNormalisedScore": 2.3276
+      }
+    },
+    {
+      "id": "Win-Stay Lose-Shift",
+      "kind": "classic",
+      "model": null,
+      "persona": null,
+      "label": "Win-Stay Lose-Shift",
+      "shortLabel": "Win-Stay Lose-Shift",
+      "color": "#8B949E",
+      "fingerprint": {
+        "cooperation_rate": 0.7776,
+        "niceness": 1.0,
+        "retaliation": 0.5175,
+        "forgiveness": 0.241,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 2,
+        "meanScorePerTurn": 2.1633,
+        "totalScore": 4543.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 6,
+        "meanNormalisedScore": 1.8286
+      }
+    },
+    {
+      "id": "GTFT: 0.33",
+      "kind": "classic",
+      "model": null,
+      "persona": null,
+      "label": "GTFT: 0.33",
+      "shortLabel": "GTFT: 0.33",
+      "color": "#8B949E",
+      "fingerprint": {
+        "cooperation_rate": 0.7676,
+        "niceness": 1.0,
+        "retaliation": 0.6404,
+        "forgiveness": 1.0,
+        "provocability": 0.6333
+      },
+      "outcomes": {
+        "wins": 0,
+        "meanScorePerTurn": 2.1219,
+        "totalScore": 4456.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 7,
+        "meanNormalisedScore": 1.7524
+      }
+    },
+    {
+      "id": "Cooperator",
+      "kind": "classic",
+      "model": null,
+      "persona": null,
+      "label": "Cooperator",
+      "shortLabel": "Cooperator",
+      "color": "#8B949E",
+      "fingerprint": {
+        "cooperation_rate": 1.0,
+        "niceness": 1.0,
+        "retaliation": 0.0,
+        "forgiveness": 1.0,
+        "provocability": 0.0
+      },
+      "outcomes": {
+        "wins": 0,
+        "meanScorePerTurn": 1.8286,
+        "totalScore": 3840.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 12,
+        "meanNormalisedScore": 2.3057
+      }
+    },
+    {
+      "id": "Defector",
+      "kind": "classic",
+      "model": null,
+      "persona": null,
+      "label": "Defector",
+      "shortLabel": "Defector",
+      "color": "#8B949E",
+      "fingerprint": {
+        "cooperation_rate": 0.0,
+        "niceness": 0.0,
+        "retaliation": 1.0,
+        "forgiveness": 0.0,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 60,
+        "meanScorePerTurn": 1.8286,
+        "totalScore": 3840.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 14,
+        "meanNormalisedScore": 1.8229
+      }
+    },
+    {
+      "id": "Random: 0.5",
+      "kind": "classic",
+      "model": null,
+      "persona": null,
+      "label": "Random: 0.5",
+      "shortLabel": "Random: 0.5",
+      "color": "#8B949E",
+      "fingerprint": {
+        "cooperation_rate": 0.5186,
+        "niceness": 0.1571,
+        "retaliation": 0.4814,
+        "forgiveness": 0.538,
+        "provocability": 0.619
+      },
+      "outcomes": {
+        "wins": 26,
+        "meanScorePerTurn": 1.7524,
+        "totalScore": 3680.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 15,
+        "meanNormalisedScore": 1.8362
+      }
+    },
+    {
+      "id": "LLM:gpt-4o-mini[neutral]",
+      "kind": "llm",
+      "model": "gpt-4o-mini",
+      "persona": "neutral",
+      "label": "gpt-4o-mini: neutral prompt",
+      "shortLabel": "gpt-4o-mini \u00b7 neutral",
+      "color": "#218BFF",
+      "fingerprint": {
+        "cooperation_rate": 0.6362,
+        "niceness": 1.0,
+        "retaliation": 0.9099,
+        "forgiveness": 0.2237,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 2,
+        "meanScorePerTurn": 2.2733,
+        "totalScore": 4774.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 4,
+        "meanNormalisedScore": 2.1219
+      },
+      "nearestClassic": {
+        "id": "Grudger",
+        "label": "Grudger",
+        "distance": 0.2461
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 0.2461
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 0.4175
+        },
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 0.7815
+        },
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 0.9094
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 1.0733
+        },
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 1.2095
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 1.6009
+        }
+      ]
+    },
+    {
+      "id": "LLM:gpt-4o-mini[cooperative]",
+      "kind": "llm",
+      "model": "gpt-4o-mini",
+      "persona": "cooperative",
+      "label": "gpt-4o-mini: cooperative prompt",
+      "shortLabel": "gpt-4o-mini \u00b7 cooperative",
+      "color": "#218BFF",
+      "fingerprint": {
+        "cooperation_rate": 0.761,
+        "niceness": 1.0,
+        "retaliation": 0.6346,
+        "forgiveness": 1.0,
+        "provocability": 0.0
+      },
+      "outcomes": {
+        "wins": 0,
+        "meanScorePerTurn": 2.0714,
+        "totalScore": 4350.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 8,
+        "meanNormalisedScore": 2.2733
+      },
+      "nearestClassic": {
+        "id": "GTFT: 0.33",
+        "label": "GTFT: 0.33",
+        "distance": 0.6334
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 0.6334
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 0.6781
+        },
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 1.0714
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 1.1787
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 1.261
+        },
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 1.471
+        },
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 1.9268
+        }
+      ]
+    },
+    {
+      "id": "LLM:gpt-4o-mini[selfish]",
+      "kind": "llm",
+      "model": "gpt-4o-mini",
+      "persona": "selfish",
+      "label": "gpt-4o-mini: selfish prompt",
+      "shortLabel": "gpt-4o-mini \u00b7 selfish",
+      "color": "#218BFF",
+      "fingerprint": {
+        "cooperation_rate": 0.0,
+        "niceness": 0.0,
+        "retaliation": 1.0,
+        "forgiveness": 0.0,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 60,
+        "meanScorePerTurn": 1.821,
+        "totalScore": 3824.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 10,
+        "meanNormalisedScore": 1.821
+      },
+      "nearestClassic": {
+        "id": "Defector",
+        "label": "Defector",
+        "distance": 0.0
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 0.0
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 0.9986
+        },
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 1.1596
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 1.3768
+        },
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 1.5529
+        },
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 1.6891
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 2.2361
+        }
+      ]
+    },
+    {
+      "id": "LLM:gpt-4o-mini[payoff_only]",
+      "kind": "llm",
+      "model": "gpt-4o-mini",
+      "persona": "payoff_only",
+      "label": "gpt-4o-mini: payoff_only prompt",
+      "shortLabel": "gpt-4o-mini \u00b7 payoff_only",
+      "color": "#218BFF",
+      "fingerprint": {
+        "cooperation_rate": 0.1586,
+        "niceness": 0.0,
+        "retaliation": 0.8466,
+        "forgiveness": 0.2455,
+        "provocability": 0.6
+      },
+      "outcomes": {
+        "wins": 35,
+        "meanScorePerTurn": 2.02,
+        "totalScore": 4242.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 9,
+        "meanNormalisedScore": 2.0714
+      },
+      "nearestClassic": {
+        "id": "Defector",
+        "label": "Defector",
+        "distance": 0.5186
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 0.5186
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 0.6112
+        },
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 1.1947
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 1.2851
+        },
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 1.4085
+        },
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 1.4092
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 1.8314
+        }
+      ]
+    },
+    {
+      "id": "LLM:claude-haiku-4-5[neutral]",
+      "kind": "llm",
+      "model": "claude-haiku-4-5",
+      "persona": "neutral",
+      "label": "claude-haiku-4-5: neutral prompt",
+      "shortLabel": "claude-haiku-4-5 \u00b7 neutral",
+      "color": "#A371F7",
+      "fingerprint": {
+        "cooperation_rate": 0.5919,
+        "niceness": 1.0,
+        "retaliation": 1.0,
+        "forgiveness": 0.05,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 10,
+        "meanScorePerTurn": 2.3057,
+        "totalScore": 4842.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 1,
+        "meanNormalisedScore": 2.2786
+      },
+      "nearestClassic": {
+        "id": "Grudger",
+        "label": "Grudger",
+        "distance": 0.0502
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 0.0502
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 0.5512
+        },
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 0.9513
+        },
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 1.0941
+        },
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 1.1631
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 1.1697
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 1.7519
+        }
+      ]
+    },
+    {
+      "id": "LLM:claude-haiku-4-5[cooperative]",
+      "kind": "llm",
+      "model": "claude-haiku-4-5",
+      "persona": "cooperative",
+      "label": "claude-haiku-4-5: cooperative prompt",
+      "shortLabel": "claude-haiku-4-5 \u00b7 cooperative",
+      "color": "#A371F7",
+      "fingerprint": {
+        "cooperation_rate": 0.6462,
+        "niceness": 1.0,
+        "retaliation": 0.9218,
+        "forgiveness": 0.7797,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 2,
+        "meanScorePerTurn": 2.2471,
+        "totalScore": 4719.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 5,
+        "meanNormalisedScore": 1.8286
+      },
+      "nearestClassic": {
+        "id": "Tit For Tat",
+        "label": "Tit For Tat",
+        "distance": 0.2338
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 0.2338
+        },
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 0.5262
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 0.6862
+        },
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 0.7858
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 1.0603
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 1.4225
+        },
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 1.4253
+        }
+      ]
+    },
+    {
+      "id": "LLM:claude-haiku-4-5[selfish]",
+      "kind": "llm",
+      "model": "claude-haiku-4-5",
+      "persona": "selfish",
+      "label": "claude-haiku-4-5: selfish prompt",
+      "shortLabel": "claude-haiku-4-5 \u00b7 selfish",
+      "color": "#A371F7",
+      "fingerprint": {
+        "cooperation_rate": 0.0,
+        "niceness": 0.0,
+        "retaliation": 1.0,
+        "forgiveness": 0.0,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 60,
+        "meanScorePerTurn": 1.8229,
+        "totalScore": 3828.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 13,
+        "meanNormalisedScore": 2.2471
+      },
+      "nearestClassic": {
+        "id": "Defector",
+        "label": "Defector",
+        "distance": 0.0
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 0.0
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 0.9986
+        },
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 1.1596
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 1.3768
+        },
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 1.5529
+        },
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 1.6891
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 2.2361
+        }
+      ]
+    },
+    {
+      "id": "LLM:claude-haiku-4-5[payoff_only]",
+      "kind": "llm",
+      "model": "claude-haiku-4-5",
+      "persona": "payoff_only",
+      "label": "claude-haiku-4-5: payoff_only prompt",
+      "shortLabel": "claude-haiku-4-5 \u00b7 payoff_only",
+      "color": "#A371F7",
+      "fingerprint": {
+        "cooperation_rate": 0.0086,
+        "niceness": 0.0,
+        "retaliation": 0.9893,
+        "forgiveness": 0.0,
+        "provocability": 1.0
+      },
+      "outcomes": {
+        "wins": 55,
+        "meanScorePerTurn": 1.8362,
+        "totalScore": 3856.0,
+        "matches": 70
+      },
+      "ranked": {
+        "rank": 11,
+        "meanNormalisedScore": 2.02
+      },
+      "nearestClassic": {
+        "id": "Defector",
+        "label": "Defector",
+        "distance": 0.0137
+      },
+      "nearestClassicRanking": [
+        {
+          "id": "Defector",
+          "label": "Defector",
+          "distance": 0.0137
+        },
+        {
+          "id": "Random: 0.5",
+          "label": "Random: 0.5",
+          "distance": 0.9886
+        },
+        {
+          "id": "Grudger",
+          "label": "Grudger",
+          "distance": 1.1553
+        },
+        {
+          "id": "Win-Stay Lose-Shift",
+          "label": "Win-Stay Lose-Shift",
+          "distance": 1.3682
+        },
+        {
+          "id": "Tit For Tat",
+          "label": "Tit For Tat",
+          "distance": 1.5494
+        },
+        {
+          "id": "GTFT: 0.33",
+          "label": "GTFT: 0.33",
+          "distance": 1.6829
+        },
+        {
+          "id": "Cooperator",
+          "label": "Cooperator",
+          "distance": 2.2275
+        }
+      ]
+    }
+  ],
+  "series": [
+    {
+      "id": "gpt-4o-mini",
+      "label": "gpt-4o-mini",
+      "color": "#218BFF",
+      "playerIds": [
+        "LLM:gpt-4o-mini[cooperative]",
+        "LLM:gpt-4o-mini[neutral]",
+        "LLM:gpt-4o-mini[payoff_only]",
+        "LLM:gpt-4o-mini[selfish]"
+      ]
+    },
+    {
+      "id": "claude-haiku-4-5",
+      "label": "claude-haiku-4-5",
+      "color": "#A371F7",
+      "playerIds": [
+        "LLM:claude-haiku-4-5[cooperative]",
+        "LLM:claude-haiku-4-5[neutral]",
+        "LLM:claude-haiku-4-5[payoff_only]",
+        "LLM:claude-haiku-4-5[selfish]"
+      ]
+    }
+  ],
+  "cooperationMatrix": {
+    "players": [
+      "Tit For Tat",
+      "Grudger",
+      "Win-Stay Lose-Shift",
+      "GTFT: 0.33",
+      "Cooperator",
+      "Defector",
+      "Random: 0.5",
+      "LLM:gpt-4o-mini[neutral]",
+      "LLM:gpt-4o-mini[cooperative]",
+      "LLM:gpt-4o-mini[selfish]",
+      "LLM:gpt-4o-mini[payoff_only]",
+      "LLM:claude-haiku-4-5[neutral]",
+      "LLM:claude-haiku-4-5[cooperative]",
+      "LLM:claude-haiku-4-5[selfish]",
+      "LLM:claude-haiku-4-5[payoff_only]"
+    ],
+    "values": {
+      "Tit For Tat": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.033,
+        "Random: 0.5": 0.547,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.033,
+        "LLM:gpt-4o-mini[payoff_only]": 0.3,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.033,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.033
+      },
+      "Grudger": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.033,
+        "Random: 0.5": 0.053,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.033,
+        "LLM:gpt-4o-mini[payoff_only]": 0.033,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.033,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.033
+      },
+      "Win-Stay Lose-Shift": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.5,
+        "Random: 0.5": 0.52,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.5,
+        "LLM:gpt-4o-mini[payoff_only]": 0.367,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.5,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.5
+      },
+      "GTFT: 0.33": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.38,
+        "Random: 0.5": 0.74,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.307,
+        "LLM:gpt-4o-mini[payoff_only]": 0.54,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.353,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.427
+      },
+      "Cooperator": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 1.0,
+        "Random: 0.5": 1.0,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 1.0,
+        "LLM:gpt-4o-mini[payoff_only]": 1.0,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 1.0,
+        "LLM:claude-haiku-4-5[payoff_only]": 1.0
+      },
+      "Defector": {
+        "Tit For Tat": 0.0,
+        "Grudger": 0.0,
+        "Win-Stay Lose-Shift": 0.0,
+        "GTFT: 0.33": 0.0,
+        "Cooperator": 0.0,
+        "Defector": 0.0,
+        "Random: 0.5": 0.0,
+        "LLM:gpt-4o-mini[neutral]": 0.0,
+        "LLM:gpt-4o-mini[cooperative]": 0.0,
+        "LLM:gpt-4o-mini[selfish]": 0.0,
+        "LLM:gpt-4o-mini[payoff_only]": 0.0,
+        "LLM:claude-haiku-4-5[neutral]": 0.0,
+        "LLM:claude-haiku-4-5[cooperative]": 0.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.0,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.0
+      },
+      "Random: 0.5": {
+        "Tit For Tat": 0.533,
+        "Grudger": 0.54,
+        "Win-Stay Lose-Shift": 0.54,
+        "GTFT: 0.33": 0.58,
+        "Cooperator": 0.467,
+        "Defector": 0.487,
+        "Random: 0.5": 0.52,
+        "LLM:gpt-4o-mini[neutral]": 0.513,
+        "LLM:gpt-4o-mini[cooperative]": 0.48,
+        "LLM:gpt-4o-mini[selfish]": 0.533,
+        "LLM:gpt-4o-mini[payoff_only]": 0.5,
+        "LLM:claude-haiku-4-5[neutral]": 0.493,
+        "LLM:claude-haiku-4-5[cooperative]": 0.567,
+        "LLM:claude-haiku-4-5[selfish]": 0.493,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.533
+      },
+      "LLM:gpt-4o-mini[neutral]": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.033,
+        "Random: 0.5": 0.507,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.033,
+        "LLM:gpt-4o-mini[payoff_only]": 0.267,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.033,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.033
+      },
+      "LLM:gpt-4o-mini[cooperative]": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.2,
+        "Random: 0.5": 0.953,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.2,
+        "LLM:gpt-4o-mini[payoff_only]": 0.9,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.2,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.2
+      },
+      "LLM:gpt-4o-mini[selfish]": {
+        "Tit For Tat": 0.0,
+        "Grudger": 0.0,
+        "Win-Stay Lose-Shift": 0.0,
+        "GTFT: 0.33": 0.0,
+        "Cooperator": 0.0,
+        "Defector": 0.0,
+        "Random: 0.5": 0.0,
+        "LLM:gpt-4o-mini[neutral]": 0.0,
+        "LLM:gpt-4o-mini[cooperative]": 0.0,
+        "LLM:gpt-4o-mini[selfish]": 0.0,
+        "LLM:gpt-4o-mini[payoff_only]": 0.0,
+        "LLM:claude-haiku-4-5[neutral]": 0.0,
+        "LLM:claude-haiku-4-5[cooperative]": 0.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.0,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.0
+      },
+      "LLM:gpt-4o-mini[payoff_only]": {
+        "Tit For Tat": 0.267,
+        "Grudger": 0.167,
+        "Win-Stay Lose-Shift": 0.333,
+        "GTFT: 0.33": 0.16,
+        "Cooperator": 0.067,
+        "Defector": 0.1,
+        "Random: 0.5": 0.193,
+        "LLM:gpt-4o-mini[neutral]": 0.267,
+        "LLM:gpt-4o-mini[cooperative]": 0.067,
+        "LLM:gpt-4o-mini[selfish]": 0.1,
+        "LLM:gpt-4o-mini[payoff_only]": 0.5,
+        "LLM:claude-haiku-4-5[neutral]": 0.167,
+        "LLM:claude-haiku-4-5[cooperative]": 0.133,
+        "LLM:claude-haiku-4-5[selfish]": 0.1,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.1
+      },
+      "LLM:claude-haiku-4-5[neutral]": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.033,
+        "Random: 0.5": 0.12,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.033,
+        "LLM:gpt-4o-mini[payoff_only]": 0.033,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.033,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.033
+      },
+      "LLM:claude-haiku-4-5[cooperative]": {
+        "Tit For Tat": 1.0,
+        "Grudger": 1.0,
+        "Win-Stay Lose-Shift": 1.0,
+        "GTFT: 0.33": 1.0,
+        "Cooperator": 1.0,
+        "Defector": 0.067,
+        "Random: 0.5": 0.48,
+        "LLM:gpt-4o-mini[neutral]": 1.0,
+        "LLM:gpt-4o-mini[cooperative]": 1.0,
+        "LLM:gpt-4o-mini[selfish]": 0.067,
+        "LLM:gpt-4o-mini[payoff_only]": 0.3,
+        "LLM:claude-haiku-4-5[neutral]": 1.0,
+        "LLM:claude-haiku-4-5[cooperative]": 1.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.067,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.067
+      },
+      "LLM:claude-haiku-4-5[selfish]": {
+        "Tit For Tat": 0.0,
+        "Grudger": 0.0,
+        "Win-Stay Lose-Shift": 0.0,
+        "GTFT: 0.33": 0.0,
+        "Cooperator": 0.0,
+        "Defector": 0.0,
+        "Random: 0.5": 0.0,
+        "LLM:gpt-4o-mini[neutral]": 0.0,
+        "LLM:gpt-4o-mini[cooperative]": 0.0,
+        "LLM:gpt-4o-mini[selfish]": 0.0,
+        "LLM:gpt-4o-mini[payoff_only]": 0.0,
+        "LLM:claude-haiku-4-5[neutral]": 0.0,
+        "LLM:claude-haiku-4-5[cooperative]": 0.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.0,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.0
+      },
+      "LLM:claude-haiku-4-5[payoff_only]": {
+        "Tit For Tat": 0.0,
+        "Grudger": 0.0,
+        "Win-Stay Lose-Shift": 0.0,
+        "GTFT: 0.33": 0.0,
+        "Cooperator": 0.0,
+        "Defector": 0.033,
+        "Random: 0.5": 0.02,
+        "LLM:gpt-4o-mini[neutral]": 0.0,
+        "LLM:gpt-4o-mini[cooperative]": 0.0,
+        "LLM:gpt-4o-mini[selfish]": 0.033,
+        "LLM:gpt-4o-mini[payoff_only]": 0.0,
+        "LLM:claude-haiku-4-5[neutral]": 0.0,
+        "LLM:claude-haiku-4-5[cooperative]": 0.0,
+        "LLM:claude-haiku-4-5[selfish]": 0.033,
+        "LLM:claude-haiku-4-5[payoff_only]": 0.033
+      }
+    }
+  }
+}
